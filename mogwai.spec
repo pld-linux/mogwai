@@ -5,17 +5,18 @@
 Summary:	Mogwai - monitor network usage and schedule downloads do minimize their cost
 Summary(pl.UTF-8):	Mogwai - monitorowanie wykorzystania sieci i planowanie pobrań tak, aby zminimalizować ich koszt
 Name:		mogwai
-Version:	0.2.0
+Version:	0.2.1
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
+#Source0Download: https://gitlab.freedesktop.org/pwithnall/mogwai/-/tags
 Source0:	https://gitlab.freedesktop.org/pwithnall/mogwai/-/archive/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	038a5f7562f39c96f3c3e3625c9ca72c
+# Source0-md5:	2df5dbccab51074fcc402f3330d6d2b4
 URL:		https://gitlab.freedesktop.org/pwithnall/mogwai
 BuildRequires:	NetworkManager-devel >= 2:1.8.0
 BuildRequires:	glib2-devel >= 1:2.57.1
 BuildRequires:	libsoup-devel >= 2.42
-BuildRequires:	meson >= 0.46.0
+BuildRequires:	meson >= 0.50.0
 BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.736
