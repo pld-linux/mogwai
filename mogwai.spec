@@ -1,28 +1,32 @@
 #
 # Conditional build:
 %bcond_without	static_libs	# static libraries
+%bcond_with	libsoup3	# libsoup3 instead of libsoup 2
 #
 Summary:	Mogwai - monitor network usage and schedule downloads do minimize their cost
 Summary(pl.UTF-8):	Mogwai - monitorowanie wykorzystania sieci i planowanie pobrań tak, aby zminimalizować ich koszt
 Name:		mogwai
-Version:	0.2.1
+Version:	0.3.0
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 #Source0Download: https://gitlab.freedesktop.org/pwithnall/mogwai/-/tags
 Source0:	https://gitlab.freedesktop.org/pwithnall/mogwai/-/archive/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	2df5dbccab51074fcc402f3330d6d2b4
+# Source0-md5:	147fe0243383a14aab5a0fd837de5825
+Patch0:		%{name}-systemd.patch
 URL:		https://gitlab.freedesktop.org/pwithnall/mogwai
 BuildRequires:	NetworkManager-devel >= 2:1.8.0
 BuildRequires:	glib2-devel >= 1:2.57.1
-BuildRequires:	libsoup-devel >= 2.42
+BuildRequires:	libgsystemservice-devel >= 0.1.0
+%{!?with_libsoup3:BuildRequires:	libsoup-devel >= 2.42}
+%{?with_libsoup3:BuildRequires:	libsoup3-devel >= 3.0}
 BuildRequires:	meson >= 0.50.0
 BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.736
 BuildRequires:	systemd-devel
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	libsoup >= 2.42
+%{!?with_libsoup3:Requires:	libsoup >= 2.42}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -93,6 +97,7 @@ Requires(postun):	/usr/sbin/userdel
 Requires(postun):	/usr/sbin/groupdel
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	NetworkManager >= 2:1.8.0
+Requires:	libgsystemservice >= 0.1.0
 Requires:	systemd
 Provides:	group(mogwai-scheduled)
 Provides:	user(mogwai-scheduled)
@@ -117,10 +122,12 @@ Ten pakiet zawiera demona planującego.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %meson build \
-	%{!?with_static_libs:--default-library=shared}
+	%{!?with_static_libs:--default-library=shared} \
+	%{!?with_libsoup3:-Dsoup2=true}
 
 %ninja_build -C build
 

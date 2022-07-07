@@ -1,0 +1,18 @@
+--- mogwai-0.3.0/mogwai-scheduled/meson.build.orig	2022-06-24 14:57:13.000000000 +0200
++++ mogwai-0.3.0/mogwai-scheduled/meson.build	2022-07-07 21:46:39.068789349 +0200
+@@ -39,13 +39,13 @@ configure_file(
+ configure_file(
+   input: 'mogwai-scheduled.conf.in',
+   output: 'mogwai-scheduled.conf',
+-  install_dir: dependency('libsystemd').get_pkgconfig_variable('sysusersdir'),
++  install_dir: dependency('systemd').get_pkgconfig_variable('sysusersdir'),
+   configuration: config,
+ )
+ configure_file(
+   input: 'mogwai-scheduled.service.in',
+   output: 'mogwai-scheduled.service',
+-  install_dir: dependency('libsystemd').get_pkgconfig_variable('systemdsystemunitdir'),
++  install_dir: dependency('systemd').get_pkgconfig_variable('systemdsystemunitdir'),
+   configuration: config,
+ )
+ configure_file(
