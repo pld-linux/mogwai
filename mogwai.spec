@@ -1,13 +1,13 @@
 #
 # Conditional build:
 %bcond_without	static_libs	# static libraries
-%bcond_with	libsoup3	# libsoup3 instead of libsoup 2
+%bcond_with	libsoup2	# libsoup 2 instead of libsoup3
 #
 Summary:	Mogwai - monitor network usage and schedule downloads do minimize their cost
 Summary(pl.UTF-8):	Mogwai - monitorowanie wykorzystania sieci i planowanie pobrań tak, aby zminimalizować ich koszt
 Name:		mogwai
 Version:	0.3.0
-Release:	1
+Release:	2
 License:	LGPL v2.1+
 Group:		Libraries
 #Source0Download: https://gitlab.freedesktop.org/pwithnall/mogwai/-/tags
@@ -18,15 +18,16 @@ URL:		https://gitlab.freedesktop.org/pwithnall/mogwai
 BuildRequires:	NetworkManager-devel >= 2:1.8.0
 BuildRequires:	glib2-devel >= 1:2.57.1
 BuildRequires:	libgsystemservice-devel >= 0.1.0
-%{!?with_libsoup3:BuildRequires:	libsoup-devel >= 2.42}
-%{?with_libsoup3:BuildRequires:	libsoup3-devel >= 3.0}
+%{?with_libsoup2:BuildRequires:	libsoup-devel >= 2.42}
+%{!?with_libsoup2:BuildRequires:	libsoup3-devel >= 3.0}
 BuildRequires:	meson >= 0.50.0
 BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.736
 BuildRequires:	systemd-devel
 Requires:	%{name}-libs = %{version}-%{release}
-%{!?with_libsoup3:Requires:	libsoup >= 2.42}
+%{?with_libsoup2:Requires:	libsoup >= 2.42}
+%{!?with_libsoup2:Requires:	libsoup3 >= 3.0}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
